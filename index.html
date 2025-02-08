@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العد التنازلي لرمضان 1446</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #ffdd57;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        #countdown div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            width: 120px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background 0.3s ease;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        #countdown div:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        #countdown span {
+            font-size: 2.8rem;
+            color: #ffdd57;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        .label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 10px;
+        }
+
+        #message {
+            font-size: 2em;
+            color: #ffdd57;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            #countdown {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            #countdown div {
+                width: 100%;
+                padding: 15px;
+            }
+
+            #countdown span {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>العد التنازلي لرمضان 1446 هـ</h1>
+        <div id="countdown">
+            <div>
+                <span id="days">0</span>
+                <span class="label">أيام</span>
+            </div>
+            <div>
+                <span id="hours">0</span>
+                <span class="label">ساعات</span>
+            </div>
+            <div>
+                <span id="minutes">0</span>
+                <span class="label">دقائق</span>
+            </div>
+            <div>
+                <span id="seconds">0</span>
+                <span class="label">ثواني</span>
+            </div>
+        </div>
+        <div id="message">رمضان بدأ بالفعل! 🌙</div>
+    </div>
+
+    <script>
+        function timeUntilRamadan() {
+            const now = new Date();
+            const ramadanStart = new Date(2025, 1, 28, 18, 0, 0);
+            const diff = ramadanStart - now;
+
+            if (diff <= 0) {
+                return { message: "رمضان بدأ بالفعل! 🌙" };
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            return { days, hours, minutes, seconds };
+        }
+
+        function updateCountdown() {
+            const { message, days, hours, minutes, seconds } = timeUntilRamadan();
+
+            if (message) {
+                document.getElementById('countdown').style.display = 'none';
+                document.getElementById('message').style.display = 'block';
+                document.getElementById('message').innerText = message;
+            } else {
+                document.getElementById('days').innerText = days;
+                document.getElementById('hours').innerText = hours;
+                document.getElementById('minutes').innerText = minutes;
+                document.getElementById('seconds').innerText = seconds;
+            }
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
